@@ -17,25 +17,55 @@
 // reportWebVitals();
 
 import ReactDOM from "react-dom/client";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  BrowserRouter,
+  Routes,
+  Route,
+} from "react-router-dom";
+import { createRoot } from "react-dom/client";
 import Layout from "./Layout";
 import Home from "./Home";
 import Form from "./Form";
-import Contact from "./Contact"; 
+import Contact from "./Contact";
 import NoPage from "./NoPage";
 
-export default function App() {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/form" element={<Form />} />
-        <Route path="/form/:id" element={<Form />} />
-        <Route path="*" element={<NoPage />} />
-      </Routes>
-    </BrowserRouter>
-  );
-}
+// export default function App() {
+//   return (
+//     <BrowserRouter>
+//       <Routes>
+//         <Route path="/" element={<Home />} />
+//         <Route path="/form" element={<Form />} />
+//         <Route path="/form/:id" element={<Form />} />
+//         <Route path="*" element={<NoPage />} />
+//       </Routes>
+//     </BrowserRouter>
+//   );
+// }
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<App />);
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Home />,
+  },
+  {
+    path: "/form",
+    element: <Form />,
+  },
+  {
+    path: "/form/:id",
+    element: <Form />,
+  },
+  {
+    path: "*",
+    element: <NoPage />,
+  },
+]);
+
+createRoot(document.getElementById("root")).render(
+  <RouterProvider router={router} />
+);
+
+// const root = ReactDOM.createRoot(document.getElementById("root"));
+// root.render(<router />);

@@ -3,9 +3,15 @@ import { Link, useParams } from "react-router-dom";
 import "./App.js";
 
 const Form = () => {
-  const acess1 = JSON.parse(localStorage.getItem("tabularList3"));
+  const acesstable = JSON.parse(localStorage.getItem("tabularList3"));
+  const editClickedAcess = JSON.parse(localStorage.getItem("editClicked"));
+  const editClickedLength = acesstable.length;
+
   const [formData, setForm] = useState({ name: "", phone: "", email: "" });
-  const [number, setNumber] = useState(0);
+  const [number, setNumber] = useState(
+    editClickedLength === undefined ? 0 : parseInt(editClickedLength)
+  );
+  const [kalsu, setKalsu] = useState(editClickedAcess);
   const [list, setList] = useState([]);
   const [errorObject, seterrorObject] = useState({});
   const [SelectedId, setSelectedId] = useState("");
@@ -46,8 +52,8 @@ const Form = () => {
     if (objectLength === 0) {
       setNumber(number + 1);
       formData.id = number;
-      list.push(formData);
-      const newest = [...list];
+      acesstable.push(formData);
+      const newest = [...acesstable];
       localStorage.setItem("tabularList3", JSON.stringify(newest));
       setForm({
         name: "",
@@ -60,39 +66,43 @@ const Form = () => {
     }
   };
 
-  const amaze = params.id;
-
-  const Finding = acess1.find((each) => parseInt(each.id) === parseInt(amaze));
+  const idAcess = params.id;
 
   useEffect(() => {
-    if (Finding !== undefined) {
+    if (kalsu) {
+      const Finding = acesstable.find(
+        (each) => parseInt(each.id) === parseInt(idAcess)
+      );
       const { name, phone, email } = Finding;
       setForm({ name, phone, email });
-      setStatus(false);
     }
-  }, []);
+
+    return () => {
+      setForm({ name: "", phone: "", email: "" });
+    };
+  }, [kalsu]);
 
   const changingEditClicked = () => {
-    const Latest = acess1.findIndex((each) => each.id === parseInt(amaze));
+    const Latest = acesstable.findIndex(
+      (each) => each.id === parseInt(idAcess)
+    );
 
     const ones = {
       name: formData.name,
       phone: formData.phone,
       email: formData.email,
-      id: parseInt(amaze),
+      id: parseInt(idAcess),
     };
-    acess1.splice(Latest, 1, ones);
-
-    console.log(Latest);
-    console.log(ones);
-    console.log(acess1);
-    setStatus(true);
-    localStorage.setItem("tabularList3", JSON.stringify(acess1));
+    acesstable.splice(Latest, 1, ones);
+    const amale = [...acesstable];
+    localStorage.setItem("tabularList3", JSON.stringify(amale));
+    localStorage.setItem("editClickedAcess", JSON.stringify(false));
+    setKalsu(false);
   };
-
+  console.log(kalsu);
   return (
     <div className="form">
-      <form onSubmit={Status ? changingEditClicked : formSubmit}>
+      <form onSubmit={formSubmit}>
         <label>Name:</label>
         <br />
         <input
@@ -120,8 +130,12 @@ const Form = () => {
           value={formData.email}
         />
         <br />
-        {Status ? (
-          <button type="submit" className="buttonDesign">
+        {editClickedAcess ? (
+          <button
+            onClick={changingEditClicked}
+            type="button"
+            className="buttonDesign"
+          >
             Update
           </button>
         ) : (

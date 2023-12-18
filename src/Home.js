@@ -1,8 +1,10 @@
 import { useLocation, Link } from "react-router-dom";
 import { useState } from "react";
+import "./index.css";
 
 const Home = () => {
-  const items = JSON.parse(localStorage.getItem("tabularList3"));
+  const items = JSON.parse(localStorage.getItem("tabularList3")); 
+  console.log(items)
   const [list, setlist] = useState(items);
   // const [id,setid]=useState(null)
 
@@ -18,7 +20,8 @@ const Home = () => {
 
   const editChangeStatus = () => {
     localStorage.setItem("editClicked", JSON.stringify(true));
-  };
+  }; 
+
   console.log(list);
   console.log(items);
   const acess = () => {
@@ -52,15 +55,18 @@ const Home = () => {
       );
     }
 
-    return <p>No data to show</p>;
-  }; 
+    return <p className="data">No data to show</p>;
+  };
 
- 
+  const addingTheTable = () => {
+    localStorage.setItem("editClicked", JSON.stringify(false));
+  };
+
   return (
-    <div>
+    <div className="dataAdd">
       <h1>Add Data</h1>
       <Link to="/form">
-        <button>Add</button>
+        <button onClick={addingTheTable}>Add</button>
       </Link>
       {list === null ? <p>No data to show</p> : acess()}
     </div>

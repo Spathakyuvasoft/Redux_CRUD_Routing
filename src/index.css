@@ -11,3 +11,28 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+.data{
+  text-align: center; 
+  font-family: "Roboto"; 
+  font-size: 25px; 
+  color:red
+} 
+
+
+.table{
+  background-color: antiquewhite; 
+  margin:auto; 
+  width:80%;
+} 
+
+
+.dataAdd{
+  margin: 5px;
+} 
+
+
+.form{
+  margin:5px;
+}
